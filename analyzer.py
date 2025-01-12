@@ -35,8 +35,11 @@ def main(startDate, endDate):
         coordIdx = headers.index('coordinate')
 
         for row in reader:
-            # Parse the timestamp
-            time = datetime.strptime(row[timeIdx],  "%Y-%m-%d %H")
+            raw_time = row[timeIdx].strip()  # Clean any whitespace
+            if "." in raw_time:
+                time = datetime.strptime(raw_time.replace(" UTC", ""), "%Y-%m-%d %H:%M:%S.%f")
+            else:
+                time = datetime.strptime(raw_time.replace(" UTC", ""), "%Y-%m-%d %H:%M:%S")
             
             # Filter rows based on the time range
             if startDate <= time <= endDate:
@@ -69,12 +72,12 @@ if __name__ == "__main__":
     # End the timer
     endTime = time.perf_counter_ns()
 
-    # Calculate elapsed time in nanoseconds
+    # Calculate elapsed time in seconds
     elapsedTime_ns = endTime - startTime
-    elapsedTime_s = elapsedTime_ns / 1000000000
+    elapsedTime_ms = elapsedTime_ns / 1000_000_000
     
     print(f"**Timeframe:** {start_date_str} to {end_date_str}")
-    print(f"**Execution Time:** {elapsedTime_s:.6f} seconds")
+    print(f"**Execution Time:** {elapsedTime_ms:.6f} ms")
     print(f"**Most Placed Color:** {color} ")
     print(f"**Most Placed Pixel Location:** {coord} ")
 
