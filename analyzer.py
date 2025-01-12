@@ -74,7 +74,7 @@ if __name__ == "__main__":
 
     # Calculate elapsed time in seconds
     elapsedTime_ns = endTime - startTime
-    elapsedTime_ms = elapsedTime_ns / 1000_000_000
+    elapsedTime_ms = elapsedTime_ns / 1_000_000
     
     print(f"**Timeframe:** {start_date_str} to {end_date_str}")
     print(f"**Execution Time:** {elapsedTime_ms:.6f} ms")
