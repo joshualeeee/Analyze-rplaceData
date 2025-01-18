@@ -48,8 +48,6 @@ if __name__ == "__main__":
     # Validate and start and end date
     startDate, endDate = checkDates(start_date_str, end_date_str)
     
-    print(startDate, endDate)
-
     # Start the timer
     startTime = time.perf_counter_ns()
 
