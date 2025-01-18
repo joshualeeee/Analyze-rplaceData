@@ -27,34 +27,33 @@ def polars(startDate, endDate):
     startDate = datetime.strptime(startDate, "%Y-%m-%d %H").strftime("%Y-%m-%d %H:%M:%S")
     endDate = datetime.strptime(endDate, "%Y-%m-%d %H").strftime("%Y-%m-%d %H:%M:%S")
 
-    # Connect to DuckDB (in-memory or persistent)
     lazy_df = pl.scan_csv("../../2022_place_canvas_history.csv")
 
     filtered = (
         lazy_df
         .filter((pl.col("timestamp") >= pl.lit(startDate)) & (pl.col("timestamp") <= pl.lit(endDate)))
-        .collect()  # Execute and load into memory only after filtering
+        .collect()  # Execute and load into memory after filtering
     )
 
+    # same query as duckDB in polars form
     pixel_color = (
         filtered
-        .group_by("pixel_color")  # Group by `pixel_color`
-        .len()  # Count occurrences
-        .sort("len", descending=True)  # Sort by count in descending order
+        .group_by("pixel_color")  
+        .len()  
+        .sort("len", descending=True)  
         .select("pixel_color")
-        .head(1)  # Take the first row (most frequent)
+        .head(1)  
     )[0, "pixel_color"]
 
     coordinate = (
         filtered
-        .group_by("coordinate")  # Group by `coordinate`
-        .len()  # Count occurrences
-        .sort("len", descending=True)  # Sort by count in descending order
+        .group_by("coordinate") 
+        .len()  
+        .sort("len", descending=True)  
         .select("coordinate")
-        .head(1)  # Take the first row (most frequent)
+        .head(1)  
     )[0, "coordinate"]
     
-    # Perform the same grouping and aggregation as above on `result`
     return pixel_color, coordinate
 
 if __name__ == "__main__":
