@@ -30,7 +30,8 @@ def duckDB(startDate, endDate):
 
     # Connect to DuckDB (in-memory or persistent)
     con = duckdb.connect()
-    # Query to find the most frequent pixel_color and location
+    
+    # Query to find the most frequent pixel_color and coord
     query = f"""
             WITH
             pixel_color_frequency AS (
