@@ -28,7 +28,6 @@ def duckDB(startDate, endDate):
     startDate = datetime.strptime(startDate, "%Y-%m-%d %H").strftime("%Y-%m-%d %H:%M:%S")
     endDate = datetime.strptime(endDate, "%Y-%m-%d %H").strftime("%Y-%m-%d %H:%M:%S")
 
-    # Connect to DuckDB (in-memory or persistent)
     con = duckdb.connect()
     
     # Query to find the most frequent pixel_color and coord
